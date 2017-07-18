@@ -113,10 +113,23 @@ class Scorer(val modeldir: String) extends LazyLogging {
         var result = (language,conf)                 
         confidences(i) = result
       }
-
-      //val map: Array[(Symbol, Double)] = classify1.map { case (k, v) => (v, k) }
-      //map
       confidences
+    } else {
+      Array()
+    }
+  }
+
+  def textLIDNoSoftmax(text: String): (String, Double) = {
+    if (text != null && text != "") {
+      val classify1: Array[(Double, Symbol)] = lidModel.classify(text)
+      val firstResult: (Double, Symbol) = classify1(0)
+      (firstResult._2.name, firstResult._1)
+    } else ("error: empty text string", 0.0)
+  }
+    
+  def textLIDFullNoSoftmax(text: String): Array[(String, Double)] = {
+    if (text != null && text != "") {
+      lidModel.classify(text).map { case (k, v) => (v.name, k) }
     } else {
       Array()
     }
