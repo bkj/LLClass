@@ -111,22 +111,18 @@ There are two main functions to score text.
 * textLID() returns the language code and a confidence value for that code. 
 * textLIDFull() returns a set of language labels ranked by most likely to least likely and a confidence value for each one. The confidence values range [0,1] where larger numbers imply higher confidence.
 
-#### Steps to perform language identification via LLClass 
-1) Import LLClass language id package
+#### Steps to use mitll.SCORE
+
 ```
-import mitll.lid
-```
-2) Create an instance of the ```Scorer``` class and specify the LID model
-```
-var newsRunner = new lid.Scorer("path/to/lid/model")
-```
-3) call the function mitll.Scorer.textLID()
-```
-var (language, confidence) = newsRunner.textLID("what language is this text string?")
-```
-4) or call the function mitll.Scorer.textLIDFull()
-```
-var langConfArray : Array[(Symbol,Double)] = newsRunner.textLIDFull("what language is this text string?")
+
+val newsRunner = new mitll.lid.Scorer("models/news4L.mod")
+val test = "what language is this text string?"
+
+// Predict single language
+var (language, confidence) = newsRunner.textLID(test)
+print(language, confidence)
+
+var langConfArray = newsRunner.textLIDFull(test)
 ```
 
 ### REST service
